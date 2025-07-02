@@ -1,6 +1,23 @@
 import re 
 from errors import GirlieSyntaxError
 
+#utils 
+def is_identifier(token: str) -> bool :
+    return token.isidentifier()
+
+def to_literal(value: str):
+    if value.lower() == "slayed":
+        return True 
+    elif value.lower() == "naur":
+        return False
+    try:
+        return int(value)
+    except ValueError:
+        try:
+            return float(value)
+        except ValueError:
+            return value.strip('"').strip("'")  # return as string if not a number
+
 # Language keywords 
 KEYWORDS = {
         "gasp", "wyd", "ykw?", "istg", "else", "elif",
