@@ -88,7 +88,7 @@ def tokenize(source_code):
 
     return tokens
 
-# Breaks full source into individual line statements and builds intermediate representation
+# Breaks full source into indi line statements and builds intermediate rep
 def parse_statements(source_code):
     lines = source_code.strip().split('\n')
     return parse_block(lines, 0, 0)[0]
@@ -124,7 +124,7 @@ def parse_block(lines, start_index, base_indent):
         if line.startswith("istg"):
             condition = line[len("istg"):].strip()
             if condition.endswith(":"):
-                condition = condition[:-1].strip()  # Remove trailing colon
+                condition = condition[:-1].strip()  # trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             if_block = {
                 "type": "if",
@@ -141,7 +141,7 @@ def parse_block(lines, start_index, base_indent):
                 raise GirlieSyntaxError(f"'elif' without preceding 'istg' at line {i + 1}")
             condition = line[len("elif"):].strip()
             if condition.endswith(":"):
-                condition = condition[:-1].strip()  # Remove trailing colon
+                condition = condition[:-1].strip()  #trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             pending_if['orelse'].append({
                 "type": "if",
@@ -156,7 +156,7 @@ def parse_block(lines, start_index, base_indent):
             if pending_if is None:
                 raise GirlieSyntaxError(f"'else' without preceding 'istg' at line {i + 1}")
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
-            pending_if['orelse'] = body  # Final else replaces orelse list
+            pending_if['orelse'] = body  
             pending_if = None
             i = next_i
             continue
@@ -164,7 +164,7 @@ def parse_block(lines, start_index, base_indent):
         if line.startswith("while"):
             condition = line[len("while"):].strip()
             if condition.endswith(":"):
-                condition = condition[:-1].strip()  # Remove trailing colon
+                condition = condition[:-1].strip()  #trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             instructions.append({
                 "type": "while",
@@ -177,7 +177,7 @@ def parse_block(lines, start_index, base_indent):
             # girl! i in 0 to 5
             stmt = line[len("girl!"):].strip()
             if stmt.endswith(":"):
-                stmt = stmt[:-1].strip()  # Remove trailing colon
+                stmt = stmt[:-1].strip()  # trailing colon
             match = re.match(r'(\w+)\s+in\s+(.+)\s+to\s+(.+)', stmt)
             if not match:
                 raise GirlieSyntaxError(f"Invalid for loop syntax at line {i + 1}")
@@ -196,7 +196,7 @@ def parse_block(lines, start_index, base_indent):
         if line.startswith("OMG"):
             sig = line[len("OMG"):].strip()
             if sig.endswith(":"):
-                sig = sig[:-1].strip()  # Remove trailing colon
+                sig = sig[:-1].strip()  #trailing colon
             match = re.match(r'(\w+)\((.*?)\)', sig)
             if not match:
                 raise GirlieSyntaxError(f"Invalid function definition at line {i + 1}")
@@ -211,7 +211,7 @@ def parse_block(lines, start_index, base_indent):
             })
             i = next_i
             continue
-        # Single-line statement (e.g. gasp x, girly = 5, etc.)
+        # Single-line statement 
         instructions.append(parse_single_line(line))
         i += 1
 

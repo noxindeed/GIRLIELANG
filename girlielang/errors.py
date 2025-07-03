@@ -4,7 +4,7 @@ class GirlieLangError(Exception):
     pass
 
 class GirlieSyntaxError(GirlieLangError):
-    """Raised when there's a syntax error in the code."""
+    """Raised when theres a syntax error in the code"""
     def __init__(self, message, line=None):
         decorated = f"omg syntax error!!  {message}"
         if line is not None:
@@ -22,22 +22,22 @@ class GirlieRuntimeError(GirlieLangError):
 
 
 class GirlieNameError(GirlieLangError):
-    """Raised when a variable or fun name is not found."""
+    """Raised when a variable or func name is not found"""
     def __init__(self, name):
         super().__init__(f"uhhh who's '{name}'???  (NameError)")
 
 
 class GirlieTypeError(GirlieLangError):
-    """Raised when theres a type mismatch or unsupported operation."""
+    """Raised when theres a type mismatch or unsup operation"""
     def __init__(self, message):
         super().__init__(f"no bestie  that's a type problem  {message}")
 
 
 class BreakSignal(Exception):
-    """Signal for break statements in loops."""
+    """Signal for break """
     pass
 
 
 class ContinueSignal(Exception):
-    """Signal for continue statements in loops."""
+    """Signal for continue """
     pass

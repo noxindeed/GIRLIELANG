@@ -20,11 +20,11 @@ def run_file(filename):
         print(" Program completed successfully!")
         
     except FileNotFoundError:
-        print(f"❌ File not found: {filename}")
+        print(f" File not found: {filename}")
     except GirlieLangError as e:
-        print(f"❌ GirlieLang Error: {e}")
+        print(f" GirlieLang Error: {e}")
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
+        print(f" Unexpected error: {e}")
 
 def run_interactive():
     """Run GirlieLang in interactive mode."""

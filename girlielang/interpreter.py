@@ -10,7 +10,7 @@ def eval_expr(expr):
     except Exception:
         raise GirlieLangError(f"Couldn't evaluate: {expr}")
 def run_program(statements):
-    """Run a list of statements."""
+    """Run an list of statements."""
     global variables, functions
     i = 0
     while i < len(statements):
