@@ -1,4 +1,4 @@
-from errors import GirlieLangError, BreakSignal, ContinueSignal
+from .errors import GirlieLangError, BreakSignal, ContinueSignal
 
 variables = {}
 functions = {}
@@ -101,5 +101,33 @@ def run_program(statements):
 
         elif stmt['type'] == 'continue':
             raise ContinueSignal()
+
+        elif stmt['type'] == 'expression':
+            # Handle standalone expressions/function calls
+            if 'name' in stmt and 'args' in stmt:
+                # This is actually a function call
+                func = functions.get(stmt['name'])
+                if not func:
+                    raise GirlieLangError(f"OMG! No such function: {stmt['name']}")
+
+                args = stmt['args']
+                params = func['params']
+                if len(args) != len(params):
+                    raise GirlieLangError("Mismatch in function arguments")
+
+                # Save current scope
+                old_vars = variables.copy()
+                for p, a in zip(params, args):
+                    variables[p] = eval_expr(a)
+
+                try:
+                    run_program(func['body'])
+                finally:
+                    # Restore old scope no matter what
+                    variables.clear()
+                    variables.update(old_vars)
+            else:
+                # Just evaluate the expression
+                eval_expr(stmt['value'])
 
         i += 1

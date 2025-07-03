@@ -1,5 +1,5 @@
 import re 
-from errors import GirlieSyntaxError
+from .errors import GirlieSyntaxError
 
 # Boolean mappings
 BOOLEAN_LITERALS = {
@@ -8,10 +8,10 @@ BOOLEAN_LITERALS = {
 }
 
 BOOLEAN_REPLACEMENTS = {
-        ' naur ': ' not ',
-            ' whatever ': ' or ',
-                ' and ': ' and '
-                }
+    ' naur ': ' not ',
+    ' whatever ': ' or ',
+    ' and ': ' and '
+}
 
 #utils 
 def is_identifier(token: str) -> bool :
@@ -20,7 +20,7 @@ def is_identifier(token: str) -> bool :
 def to_literal(value: str):
     if value.lower() == "slayed":
         return True 
-    elif value.lower() == "naur":
+    elif value.lower() == "nope":  # Fixed: was "naur" but should be "nope"
         return False
     try:
         return int(value)
@@ -123,6 +123,8 @@ def parse_block(lines, start_index, base_indent):
         # Conditional blocks
         if line.startswith("istg"):
             condition = line[len("istg"):].strip()
+            if condition.endswith(":"):
+                condition = condition[:-1].strip()  # Remove trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             if_block = {
                 "type": "if",
@@ -138,6 +140,8 @@ def parse_block(lines, start_index, base_indent):
             if pending_if is None:
                 raise GirlieSyntaxError(f"'elif' without preceding 'istg' at line {i + 1}")
             condition = line[len("elif"):].strip()
+            if condition.endswith(":"):
+                condition = condition[:-1].strip()  # Remove trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             pending_if['orelse'].append({
                 "type": "if",
@@ -159,6 +163,8 @@ def parse_block(lines, start_index, base_indent):
         # Loops
         if line.startswith("while"):
             condition = line[len("while"):].strip()
+            if condition.endswith(":"):
+                condition = condition[:-1].strip()  # Remove trailing colon
             body, next_i = parse_block(lines, i + 1, base_indent + 4)
             instructions.append({
                 "type": "while",
@@ -170,6 +176,8 @@ def parse_block(lines, start_index, base_indent):
         if line.startswith("girl!"):
             # girl! i in 0 to 5
             stmt = line[len("girl!"):].strip()
+            if stmt.endswith(":"):
+                stmt = stmt[:-1].strip()  # Remove trailing colon
             match = re.match(r'(\w+)\s+in\s+(.+)\s+to\s+(.+)', stmt)
             if not match:
                 raise GirlieSyntaxError(f"Invalid for loop syntax at line {i + 1}")
@@ -187,6 +195,8 @@ def parse_block(lines, start_index, base_indent):
         # Functions
         if line.startswith("OMG"):
             sig = line[len("OMG"):].strip()
+            if sig.endswith(":"):
+                sig = sig[:-1].strip()  # Remove trailing colon
             match = re.match(r'(\w+)\((.*?)\)', sig)
             if not match:
                 raise GirlieSyntaxError(f"Invalid function definition at line {i + 1}")
@@ -207,10 +217,60 @@ def parse_block(lines, start_index, base_indent):
 
     return instructions, i
 
-# Dummy implementation for parse_single_line to avoid NameError
 def parse_single_line(line):
-    # This should be replaced with actual parsing logic for single-line statements
-    return {"type": "statement", "line": line}
+    if line.startswith("ykw?"):
+        var_name, value = _parse_assignment(line)
+        return {"type": "assign", "var": var_name, "value": value}
+
+    if line.startswith("gasp"):
+        return {
+            "type": "print",
+            "value": line[len("gasp"):].strip()
+        }
+
+    if line.startswith("wyd"):
+        return {
+            "type": "input",
+            "var": line[len("wyd"):].strip(),
+            "prompt": ">> "
+        }
+
+    if line.startswith("ate"):
+        return {
+            "type": "return",
+            "value": line[len("ate"):].strip()
+        }
+
+    if line == "hey girlie <3":
+        return {"type": "start"}
+
+    if line == "byee hg </3":
+        return {"type": "end"}
+
+    if line == "stawp":
+        return {"type": "break"}
+
+    if line == "go girlie":
+        return {"type": "continue"}
+
+    if line == "bye":
+        return {"type": "endloop"}
+
+    # Check for function calls (e.g., bestie(arg1, arg2))
+    func_call_match = re.match(r'(\w+)\((.*?)\)', line)
+    if func_call_match:
+        func_name, args_str = func_call_match.groups()
+        args = [arg.strip() for arg in args_str.split(',')] if args_str.strip() else []
+        return {
+            "type": "function_call",
+            "name": func_name,
+            "args": args
+        }
+
+    return {
+        "type": "expression",
+        "value": line
+    }
 
 # Parses assignment expressions like: ykw? var = a
 def _parse_assignment(line):

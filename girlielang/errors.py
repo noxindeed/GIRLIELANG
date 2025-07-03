@@ -31,3 +31,13 @@ class GirlieTypeError(GirlieLangError):
     """Raised when theres a type mismatch or unsupported operation."""
     def __init__(self, message):
         super().__init__(f"no bestie  that's a type problem  {message}")
+
+
+class BreakSignal(Exception):
+    """Signal for break statements in loops."""
+    pass
+
+
+class ContinueSignal(Exception):
+    """Signal for continue statements in loops."""
+    pass
