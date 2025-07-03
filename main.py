@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 GirlieLang Interpreter Main Entry Point
 """
@@ -14,10 +14,10 @@ def run_file(filename):
         with open(filename, 'r', encoding='utf-8') as f:
             source_code = f.read()
         
-        print(f"✨ Running {filename}...")
+        print(f" Running {filename}...")
         statements = parse_statements(source_code)
         run_program(statements)
-        print("✨ Program completed successfully!")
+        print(" Program completed successfully!")
         
     except FileNotFoundError:
         print(f"❌ File not found: {filename}")
@@ -28,7 +28,7 @@ def run_file(filename):
 
 def run_interactive():
     """Run GirlieLang in interactive mode."""
-    print("✨ Welcome to GirlieLang Interactive Mode! ✨")
+    print(" Welcome to GirlieLang Interactive Mode! ")
     print("Type 'quit' to exit.")
     
     while True:
