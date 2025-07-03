@@ -1,6 +1,18 @@
 import re 
 from errors import GirlieSyntaxError
 
+# Boolean mappings
+BOOLEAN_LITERALS = {
+    'slayed': 'True',
+    'nope': 'False'
+}
+
+BOOLEAN_REPLACEMENTS = {
+        ' naur ': ' not ',
+            ' whatever ': ' or ',
+                ' and ': ' and '
+                }
+
 #utils 
 def is_identifier(token: str) -> bool :
     return token.isidentifier()
@@ -78,87 +90,127 @@ def tokenize(source_code):
 
 # Breaks full source into individual line statements and builds intermediate representation
 def parse_statements(source_code):
-    instructions = []
-    for raw_line in source_code.strip().split("\n"):
-        line = raw_line.strip()
+    lines = source_code.strip().split('\n')
+    return parse_block(lines, 0, 0)[0]
 
-        # skip blank lines and comments
+def parse_block(lines, start_index, base_indent):
+    instructions = []
+    i = start_index
+    pending_if = None  # Used to attach elif/else to the last if block
+
+    while i < len(lines):
+        raw_line = lines[i]
+        line = raw_line.strip()
+        indent = len(raw_line) - len(line)
+
+        # Skip blank lines and comments
         if not line or line.startswith("#"):
+            i += 1
             continue
 
-        # Handle variable declarations
-        if line.startswith("ykw?"):
-            var_name, value = _parse_assignment(line)
-            instructions.append({"type": "assign", "var": var_name, "value": value})
+        # Exit current block
+        if indent < base_indent:
+            break
+        elif indent > base_indent:
+            raise GirlieSyntaxError(f"Unexpected indent at line {i + 1}: {lines[i]}")
 
-        # Print expression
-        elif line.startswith("gasp"):
-            expression = line[len("gasp"):].strip()
-            instructions.append({"type": "print", "expr": expression})
+        # Replace booleans and ops
+        for literal, repl in BOOLEAN_LITERALS.items():
+            line = re.sub(rf'\b{literal}\b', repl, line)
+        for slang, op in BOOLEAN_REPLACEMENTS.items():
+            line = line.replace(slang, op)
 
-        # User input assignment
-        elif line.startswith("wyd"):
-            var_name = line[len("wyd"):].strip()
-            instructions.append({"type": "input", "var": var_name})
-
-        # Function definition start
-        elif line.startswith("OMG"):
-            fn_name = line[len("OMG"):].strip()
-            instructions.append({"type": "function_def", "name": fn_name})
-
-        # Function return value
-        elif line.startswith("ate"):
-            return_val = line[len("ate"):].strip()
-            instructions.append({"type": "return", "value": return_val})
-
-        # Program entry point
-        elif line == "hey girlie <3":
-            instructions.append({"type": "start"})
-
-        # Program end
-        elif line == "byee hg </3":
-            instructions.append({"type": "end"})
-
-        # Conditionals
-        elif line.startswith("istg"):
+        # Conditional blocks
+        if line.startswith("istg"):
             condition = line[len("istg"):].strip()
-            instructions.append({"type": "if", "cond": condition})
-
-        elif line.startswith("elif"):
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            if_block = {
+                "type": "if",
+                "condition": condition,
+                "body": body,
+                "orelse": []
+            }
+            instructions.append(if_block)
+            pending_if = if_block
+            i = next_i
+            continue
+        if line.startswith("elif"):
+            if pending_if is None:
+                raise GirlieSyntaxError(f"'elif' without preceding 'istg' at line {i + 1}")
             condition = line[len("elif"):].strip()
-            instructions.append({"type": "elif", "cond": condition})
-
-        elif line.startswith("else"):
-            instructions.append({"type": "else"})
-
-        # Loop constructs
-        elif line.startswith("girl!"):
-            for_expr = line[len("girl!"):].strip()
-            instructions.append({"type": "for", "stmt": for_expr})
-
-        elif line.startswith("while"):
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            pending_if['orelse'].append({
+                "type": "if",
+                "condition": condition,
+                "body": body,
+                "orelse": []
+            })
+            pending_if = pending_if['orelse'][-1]  # Allow chaining
+            i = next_i
+            continue
+        if line.startswith("else"):
+            if pending_if is None:
+                raise GirlieSyntaxError(f"'else' without preceding 'istg' at line {i + 1}")
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            pending_if['orelse'] = body  # Final else replaces orelse list
+            pending_if = None
+            i = next_i
+            continue
+        # Loops
+        if line.startswith("while"):
             condition = line[len("while"):].strip()
-            instructions.append({"type": "while", "cond": condition})
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            instructions.append({
+                "type": "while",
+                "condition": condition,
+                "body": body
+            })
+            i = next_i
+            continue
+        if line.startswith("girl!"):
+            # girl! i in 0 to 5
+            stmt = line[len("girl!"):].strip()
+            match = re.match(r'(\w+)\s+in\s+(.+)\s+to\s+(.+)', stmt)
+            if not match:
+                raise GirlieSyntaxError(f"Invalid for loop syntax at line {i + 1}")
+            var, start, end = match.groups()
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            instructions.append({
+                "type": "for",
+                "var": var,
+                "start": start,
+                "end": end,
+                "body": body
+            })
+            i = next_i
+            continue
+        # Functions
+        if line.startswith("OMG"):
+            sig = line[len("OMG"):].strip()
+            match = re.match(r'(\w+)\((.*?)\)', sig)
+            if not match:
+                raise GirlieSyntaxError(f"Invalid function definition at line {i + 1}")
+            name, params = match.groups()
+            param_list = [p.strip() for p in params.split(',')] if params else []
+            body, next_i = parse_block(lines, i + 1, base_indent + 4)
+            instructions.append({
+                "type": "function_def",
+                "name": name,
+                "params": param_list,
+                "body": body
+            })
+            i = next_i
+            continue
+        # Single-line statement (e.g. gasp x, girly = 5, etc.)
+        instructions.append(parse_single_line(line))
+        i += 1
 
-        elif line.startswith("do while"):
-            condition = line[len("do while"):].strip()
-            instructions.append({"type": "do_while", "cond": condition})
+    return instructions, i
 
-        # Loop control
-        elif line == "stawp":
-            instructions.append({"type": "break"})
-
-        elif line == "go girlie":
-            instructions.append({"type": "continue"})
-
-        elif line == "bye":
-            instructions.append({"type": "endloop"})
-
-        # Fallback: treat unknown line as generic expression
-        else:
-            instructions.append({"type": "expression", "value": line})
-
-    return instructions
+# Dummy implementation for parse_single_line to avoid NameError
+def parse_single_line(line):
+    # This should be replaced with actual parsing logic for single-line statements
+    return {"type": "statement", "line": line}
 
 # Parses assignment expressions like: ykw? var = a
 def _parse_assignment(line):
