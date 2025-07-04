@@ -1,52 +1,53 @@
-# 💅 GirlieLang Programming Language
+#  **GIRLIELANG** 
 
-**GirlieLang** is a fun, girly-themed esoteric programming language that uses slang and feminine expressions as keywords. It's designed to make programming more expressive and entertaining while maintaining full functionality.
+GIRLIELANG is my fun, satirical and and ironical take on making an Esoteric Programming language purely for the sake of it.
+In a nutshell, its a tiktok girlie themed language that makes use of modern tiktok genz teenage girl slang for programming.
 
-## 🌟 Features
+##  Features
 
-- **Girly Syntax**: Uses fun slang terms like `istg`, `ykw?`, `gasp`, `OMG` as keywords
+- **Syntax**: Uses fun slang terms like `istg`, `ykw?`, `gasp`, `OMG` as keywords
+
 - **Full Programming Language**: Supports variables, functions, loops, conditionals, and more
 - **Python-like Structure**: Indentation-based blocks similar to Python
-- **Interactive & File Mode**: Run files or use interactive REPL
-- **Custom Error Messages**: Themed error messages that match the language aesthetic
-
-## 🚀 Getting Started
+-  **Interactive & File Mode**: Run files or use interactive REPL
+-  **Custom Error Messages**: Themed error messages that match the language aesthetic
+##  Getting Started
 
 ### Installation
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/noxindeed/GIRLIELANG/
 cd girlielang
 ```
 
 ### Running GirlieLang
 ```bash
 # Run a file
-python main.py your_file.girlie
+python main.py <your_file>.girlie
 
 # Interactive mode
 python main.py
 ```
 
-## 📚 Language Reference
+##  Syntax Overview 
 
 ### 1. Variables & Assignment
 
-**Syntax**: `ykw? variable_name = value`
+**Syntax**: `ykw?` <variable_name> = value
 
+Example code:
 ```girlie
 # Variable declarations
 ykw? name = "Bestie"
 ykw? age = 21
 ykw? height = 5.6
-ykw? is_cool = slayed    # Boolean true
-ykw? is_boring = nope    # Boolean false
 ```
 
 ### 2. Input & Output
 
 #### Print Statement
-**Syntax**: `gasp expression`
+**Syntax**: `gasp` <expression\> 
 
+Example code:
 ```girlie
 gasp "Hello World!"
 gasp name
@@ -55,8 +56,9 @@ gasp "My name is " + name
 ```
 
 #### Input Statement
-**Syntax**: `wyd variable_name`
+**Syntax**: `wyd` <variable_name>
 
+Example code:
 ```girlie
 wyd username
 gasp "Hello " + username
@@ -65,11 +67,14 @@ gasp "Hello " + username
 ### 3. Conditionals
 
 **Syntax**: 
-- `istg condition:` (if)
-- `elif condition:` (else if)
-- `else:` (else)
+- if - `istg` <condition\>:
+- else if - `elif` <condition\> :
+- else - `else`: 
 
-```girlie
+Example code:
+```
+hey girlie <3
+
 ykw? score = 85
 
 istg score >= 90:
@@ -80,14 +85,17 @@ elif score >= 70:
     gasp "C grade! Could be better"
 else:
     gasp "Need to study more girl!"
+
+bye hg </3
 ```
 
 ### 4. Loops
 
 #### For Loop
-**Syntax**: `girl! variable in start to end:`
+**Syntax**: `girl!` <variable\> in <start\> to <end\> :
 
-```girlie
+Example code:
+```
 # Print numbers 1 to 5
 girl! i in 1 to 6:
     gasp i
@@ -99,8 +107,9 @@ girl! row in 1 to 4:
 ```
 
 #### While Loop
-**Syntax**: `while condition:`
+**Syntax**: `while` <condition\>:
 
+Example code:
 ```girlie
 ykw? count = 0
 while count < 5:
@@ -111,8 +120,9 @@ while count < 5:
 ### 5. Functions
 
 #### Function Definition
-**Syntax**: `OMG function_name(parameters):`
+**Syntax**: `OMG` <function_name\>(parameters):
 
+Example code:
 ```girlie
 # Function with no parameters
 OMG say_hello():
@@ -122,14 +132,12 @@ OMG say_hello():
 OMG greet(name, age):
     gasp "Hey " + name
     gasp "You are " + age + " years old"
-
-# Function with return value
-OMG add(x, y):
-    ate x + y    # 'ate' is return statement
 ```
 
+
 #### Function Calls
-```girlie
+Example code:
+```
 say_hello()
 greet("Sarah", 20)
 
@@ -141,13 +149,14 @@ gasp result
 
 #### Boolean Literals
 - `slayed` = True
-- `nope` = False
-
-#### Boolean Operators
+-  `nope` = False
+  
+- #### Boolean Operators
 - `naur` = not
 - `whatever` = or
 - `and` = and
-
+  
+Example code:
 ```girlie
 ykw? is_student = slayed
 ykw? has_job = nope
@@ -161,6 +170,11 @@ elif is_student whatever has_job:
 ### 7. Control Flow
 
 #### Break and Continue
+**Syntax**: 
+- `go girlie` = continue
+- `stawp` = break
+
+Example code:
 ```girlie
 girl! i in 1 to 10:
     istg i == 5:
@@ -171,8 +185,9 @@ girl! i in 1 to 10:
 ```
 
 #### Return Statement
-**Syntax**: `ate value`
+**Syntax**: `ate` <value\>
 
+Example code:
 ```girlie
 OMG calculate_grade(score):
     istg score >= 90:
@@ -197,9 +212,9 @@ gasp message
 byee hg </3
 ```
 
-## 🎯 Complete Examples
+##  Complete Examples
 
-### Example 1: Simple Calculator
+### Ex1: Simple Calculator
 ```girlie
 hey girlie <3
 
@@ -228,7 +243,7 @@ gasp "Division: " + divide(x, y)
 byee hg </3
 ```
 
-### Example 2: Number Guessing Game
+### Ex2: Number Guessing Game
 ```girlie
 hey girlie <3
 
@@ -259,7 +274,7 @@ guessing_game()
 byee hg </3
 ```
 
-### Example 3: Factorial Calculator
+### Ex3: Factorial Calculator
 ```girlie
 hey girlie <3
 
@@ -285,27 +300,8 @@ girl! i in 1 to 6:
 byee hg </3
 ```
 
-### Example 4: FizzBuzz
-```girlie
-hey girlie <3
 
-OMG fizzbuzz():
-    girl! i in 1 to 101:
-        istg i % 15 == 0:
-            gasp "FizzBuzz"
-        elif i % 3 == 0:
-            gasp "Fizz"
-        elif i % 5 == 0:
-            gasp "Buzz"
-        else:
-            gasp i
-
-fizzbuzz()
-
-byee hg </3
-```
-
-## 🎨 Language Keywords Reference
+##  Language Keywords Reference
 
 | Keyword | Standard Equivalent | Purpose |
 |---------|-------------------|---------|
@@ -329,44 +325,44 @@ byee hg </3
 | `hey girlie <3` | - | Program start (optional) |
 | `byee hg </3` | - | Program end (optional) |
 
-## 🚨 Error Messages
+##  Error Messages
 
-GirlieLang provides themed error messages:
+
 
 - **Syntax Error**: `"omg syntax error!! <message>"`
 - **Runtime Error**: `"girl help!! runtime issue <message>"`
 - **Name Error**: `"uhhh who's 'variable'??? (NameError)"`
 - **Type Error**: `"no bestie that's a type problem <message>"`
+  
+- ##  Technical Details
 
-## 🔧 Technical Details
-
-### Architecture
-- **Parser**: Converts GirlieLang source code into an Abstract Syntax Tree
+- ### Architecture
+- Parser**: Converts GirlieLang source code into an Abstract Syntax Tree
 - **Interpreter**: Executes the parsed instructions
-- **Error Handler**: Manages custom error types with themed messages
+-  **Error Handler**: Manages custom error types with themed messages
+  
+- ### Supported Data Types
+-  **Integers**: `42`, `-17`
+-  **Floats**: `3.14`, `-2.5`
+-  **Strings**: `"Hello World!"`, `'Single quotes'`
+-  **Booleans**: `slayed` (True), `nope` (False)
+  
+- ### File Extension
+- Use `.girlie` extension for GirlieLang source files.
+  
+- ##  Future Plans:
+  
 
-### Supported Data Types
-- **Integers**: `42`, `-17`
-- **Floats**: `3.14`, `-2.5`
-- **Strings**: `"Hello World!"`, `'Single quotes'`
-- **Booleans**: `slayed` (True), `nope` (False)
+-  Add more data structures (arrays, objects)
+-  Implement more built-in functions
+-  Add file I/O operations
+-  Improve error reporting with line numbers
+-  Add more girly slang terms
 
-### File Extension
-Use `.girlie` extension for GirlieLang source files.
 
-## 🎉 Contributing
 
-Feel free to contribute to GirlieLang! Some areas for improvement:
-- Add more data structures (arrays, objects)
-- Implement more built-in functions
-- Add file I/O operations
-- Improve error reporting with line numbers
-- Add more girly slang terms
 
-## 📝 License
+#
 
-[Add your license here]
 
----
-
-*Made with 💅 and lots of ✨ by [Your Name]*
+   made with love by nox
