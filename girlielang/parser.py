@@ -174,7 +174,7 @@ def parse_block(lines, start_index, base_indent):
             i = next_i
             continue
         if line.startswith("girl!"):
-            # girl! i in 0 to 5
+            # girl! i in start to end
             stmt = line[len("girl!"):].strip()
             if stmt.endswith(":"):
                 stmt = stmt[:-1].strip()  # trailing colon
@@ -211,7 +211,7 @@ def parse_block(lines, start_index, base_indent):
             })
             i = next_i
             continue
-        # Single-line statement 
+        # Singleline statement 
         instructions.append(parse_single_line(line))
         i += 1
 
@@ -261,7 +261,7 @@ def parse_single_line(line):
     if line == "bye":
         return {"type": "endloop"}
 
-    # Check for function calls (e.g., bestie(arg1, arg2))
+    # Check for function calls 
     func_call_match = re.match(r'(\w+)\((.*?)\)', line)
     if func_call_match:
         func_name, args_str = func_call_match.groups()
@@ -277,7 +277,6 @@ def parse_single_line(line):
         "value": line
     }
 
-# Parses assignment expressions like: ykw? var = a
 def _parse_assignment(line):
     if "=" not in line:
         raise GirlieSyntaxError("Assignment must include '='")

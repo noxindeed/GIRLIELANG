@@ -27,7 +27,7 @@ def run_file(filename):
         print(f" Unexpected error: {e}")
 
 def run_interactive():
-    """Run GirlieLang in interactive mode."""
+    """Run GIRLIELANG in interactive mode"""
     print(" Welcome to GirlieLang Interactive Mode! ")
     print("Type 'quit' to exit.")
     

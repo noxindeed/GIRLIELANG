@@ -274,30 +274,24 @@ guessing_game()
 byee hg </3
 ```
 
-### Ex3: Factorial Calculator
+### Ex3: simple demo
 ```girlie
 hey girlie <3
 
-OMG factorial(n):
-    istg n <= 1:
-        ate 1
-    else:
-        ate n * factorial(n - 1)
+ykw? name = "nox"
+ykw" age = 67
+gasp name
+gasp age
 
-OMG is_even(num):
-    ate num % 2 == 0
+gasp "Maths"
+ykw? x = 6
+ykw? y = 7
+gasp x + y
 
-# Test the functions
-girl! i in 1 to 6:
-    ykw? fact = factorial(i)
-    gasp i + "! = " + fact
-    
-    istg is_even(i):
-        gasp i + " is even - slayed!"
-    else:
-        gasp i + " is odd - whatever!"
-
-byee hg </3
+istg x > y:
+    gasp "x is bigger:
+else :
+    gasp "y is bigger"
 ```
 
 
