@@ -1,25 +1,11 @@
 # GirlieLang Sample Program
 hey girlie <3
 
-ykw? x = 5
-ykw? y = 10
+ykw? a = 6
+ykw? b = 3
 
-gasp "Hello from GirlieLang!"
-gasp x + y
-
-istg x < y:
-    gasp "x is smaller than y"
-else:
-    gasp "x is not smaller than y"
-
-girl! i in 1 to 4:
-    gasp "Loop iteration:"
-    gasp i
-
-OMG greet(name):
-    gasp "Hey there,"
-    gasp name
-
-greet("bestie")
+OMG test():
+    istg a > b :
+        gasp what the fuck
 
 byee hg </3

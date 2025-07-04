@@ -1,3 +1,4 @@
+import re
 from .errors import GirlieLangError, BreakSignal, ContinueSignal
 
 variables = {}
@@ -6,9 +7,32 @@ functions = {}
 def eval_expr(expr):
     """Evaluate an expression in the current variable scope."""
     try:
-        return eval(expr, {}, {**variables, **functions})
-    except Exception:
+        return eval(expr, {"__builtins__": {}}, variables)
+    except Exception as e:
         raise GirlieLangError(f"Couldn't evaluate: {expr}")
+
+def call_function(func_name, args):
+    """Helper function to call a function and return its result."""
+    func = functions.get(func_name)
+    if not func:
+        raise GirlieLangError(f"OMG! No such function: {func_name}")
+
+    params = func['params']
+    if len(args) != len(params):
+        raise GirlieLangError("Mismatch in function arguments")
+
+    # Save current scope
+    old_vars = variables.copy()
+    for p, a in zip(params, args):
+        variables[p] = eval_expr(a)
+
+    try:
+        result = run_program(func['body'])
+        return result if result is not None else None
+    finally:
+        # Restore old scope
+        variables.clear()
+        variables.update(old_vars)
 def run_program(statements):
     """Run an list of statements."""
     global variables, functions
@@ -86,7 +110,8 @@ def run_program(statements):
                 variables[p] = eval_expr(a)
 
             try:
-                run_program(func['body'])
+                result = run_program(func['body'])
+                return result  # Return the result for assignment contexts
             finally:
                 # Restore old scope no matter what
                 variables.clear()

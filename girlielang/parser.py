@@ -229,11 +229,16 @@ def parse_single_line(line):
         }
 
     if line.startswith("wyd"):
+        parts = line[len("wyd"):].strip().split(" ", 1)
+        if len(parts) != 2:
+            raise GirlieSyntaxError("Invalid 'wyd' syntax. Use: wyd <var> \"prompt\"")
+        var, prompt = parts
         return {
             "type": "input",
-            "var": line[len("wyd"):].strip(),
-            "prompt": ">> "
+            "var": var.strip(),
+            "prompt": prompt.strip().strip('"')
         }
+
 
     if line.startswith("ate"):
         return {
