@@ -1,0 +1,53 @@
+# Interactive Menu System
+hey girlie <3
+
+OMG show_menu():
+    gasp "=== Girlie Menu ==="
+    gasp "1. Say Hello"
+    gasp "2. Calculate Age"
+    gasp "3. Check Even/Odd"
+    gasp "4. Exit"
+    gasp "Choose an option:"
+
+OMG say_hello():
+    gasp "Hey bestie! How are you doing?"
+
+OMG calculate_age():
+    gasp "Enter your birth year:"
+    wyd birth_year
+    ykw? current_year = 2025
+    ykw? age = current_year - birth_year
+    gasp "You are " + age + " years old!"
+
+OMG check_even_odd():
+    gasp "Enter a number:"
+    wyd num
+    istg num % 2 == 0:
+        gasp num + " is even! Slayed!"
+    else:
+        gasp num + " is odd! Whatever!"
+
+OMG main_program():
+    ykw? running = slayed
+    
+    while running:
+        show_menu()
+        wyd choice
+        
+        istg choice == 1:
+            say_hello()
+        elif choice == 2:
+            calculate_age()
+        elif choice == 3:
+            check_even_odd()
+        elif choice == 4:
+            gasp "Byee bestie! </3"
+            ykw? running = nope
+        else:
+            gasp "Invalid choice girl! Try again."
+        
+        gasp ""
+
+main_program()
+
+byee hg </3
