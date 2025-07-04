@@ -1,11 +1,16 @@
-# GirlieLang Sample Program
 hey girlie <3
 
-ykw? a = 6
-ykw? b = 3
+ykw? name = "nox"
+ykw? age = 67
+gasp name
+gasp age
 
-OMG test():
-    istg a > b :
-        gasp what the fuck
+gasp 'Math'
+ykw? x = 6
+ykw? y = 7
+gasp x + y
 
-byee hg </3
+istg x > y :
+    gasp "x is bigger"
+else :
+    gasp "y is bigger"
