@@ -331,7 +331,7 @@ else :
 - ##  Technical Details
 
 - ### Architecture
-- Parser**: Converts GirlieLang source code into an Abstract Syntax Tree
+- **Parser**: Converts GirlieLang source code into an Abstract Syntax Tree
 - **Interpreter**: Executes the parsed instructions
 -  **Error Handler**: Manages custom error types with themed messages
   
